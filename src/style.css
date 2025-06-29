@@ -1,0 +1,170 @@
+ :root {
+     --color-bg: #f5fbef;
+     --color-primary: #59bd66;
+     --color-secondary: #f4e285;
+     --color-accent: #6b4226;
+     --color-dark: #2f3e46;
+     --color-light: #ffffff;
+     --color-text: #2f3e46;
+     --color-muted: #7c8a81;
+     --font-main: 'Inter', sans-serif;
+ }
+
+ body {
+     font-family: var(--font-main);
+     background: var(--color-bg);
+     color: var(--color-text);
+     min-height: 100vh;
+     display: flex;
+     flex-direction: column;
+ }
+
+ header {
+     background: var(--color-primary);
+     color: var(--color-light);
+     padding: 1rem 1.5rem;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+ }
+
+ header h1 {
+     font-weight: 600;
+     font-size: 1.5rem;
+     margin: 0;
+ }
+
+ .btn-burger {
+     font-size: 1.8rem;
+     background: transparent;
+     border: none;
+     color: var(--color-light);
+     cursor: pointer;
+     user-select: none;
+ }
+
+ nav.sidebar {
+     background: var(--color-light);
+     border-right: 1px solid #ddd;
+     min-height: calc(100vh - 68px);
+     padding-top: 1rem;
+     box-shadow: 2px 0 6px rgb(0 0 0 / 0.05);
+ }
+
+ nav.sidebar .list-group-item {
+     border: none;
+     padding: 0.75rem 1.5rem;
+     border-radius: 0.5rem;
+     margin-bottom: 0.4rem;
+     font-weight: 500;
+     color: var(--color-primary);
+     cursor: pointer;
+     transition: background-color 0.3s ease, color 0.3s ease;
+ }
+
+ nav.sidebar .list-group-item:hover,
+ nav.sidebar .list-group-item.active {
+     background: var(--color-secondary);
+     color: var(--color-dark);
+     box-shadow: 0 4px 10px rgb(244 162 97 / 0.3);
+ }
+
+ main.content {
+     padding: 2rem 1.5rem;
+     flex-grow: 1;
+     max-width: 100%;
+ }
+
+ main.content h2 {
+     font-weight: 700;
+     color: var(--color-dark);
+     margin-bottom: 0.5rem;
+ }
+
+ main.content .category-area {
+     color: var(--color-muted);
+     font-style: italic;
+     margin-bottom: 1rem;
+ }
+
+ main.content a.video-link {
+     display: inline-block;
+     margin-bottom: 1rem;
+     color: var(--color-primary);
+     font-weight: 600;
+     text-decoration: none;
+     border-bottom: 2px solid transparent;
+     transition: border-color 0.3s ease;
+ }
+
+ main.content a.video-link:hover {
+     border-color: var(--color-primary);
+     color: var(--color-primary);
+ }
+
+ .recipe-card {
+     background: var(--color-light);
+     padding: 1.5rem;
+     border-radius: 1rem;
+     box-shadow: 0 6px 20px rgb(38 70 83 / 0.1);
+     max-width: 720px;
+     margin-bottom: 2rem;
+ }
+
+ .recipe-img {
+     border-radius: 1rem;
+     width: 100%;
+     margin-bottom: 1.25rem;
+     box-shadow: 0 8px 24px rgb(231 111 81 / 0.15);
+     object-fit: cover;
+     max-height: 360px;
+ }
+
+ h4 {
+     margin-top: 1.5rem;
+     margin-bottom: 0.75rem;
+     color: var(--color-primary);
+     font-weight: 600;
+     border-bottom: 2px solid var(--color-primary);
+     padding-bottom: 0.3rem;
+     max-width: max-content;
+ }
+
+ ul,
+ ol {
+     padding-left: 1.25rem;
+     color: var(--color-text);
+     line-height: 1.5;
+ }
+
+ footer {
+     margin-top: auto;
+     background: var(--color-dark);
+     color: var(--color-light);
+     text-align: center;
+     padding: 1rem 1.5rem;
+     font-size: 0.9rem;
+     font-weight: 500;
+     box-shadow: inset 0 1px 5px rgb(255 255 255 / 0.1);
+ }
+
+ .offcanvas-body {
+     padding: 0;
+     background: var(--color-light);
+     height: 100%;
+ }
+
+ .offcanvas .list-group-item {
+     border: none;
+     padding: 1rem 1.5rem;
+     font-weight: 600;
+     color: var(--color-primary);
+     cursor: pointer;
+     transition: background-color 0.3s ease, color 0.3s ease;
+ }
+
+ .offcanvas .list-group-item:hover {
+     background: var(--color-secondary);
+     color: var(--color-dark);
+ }
