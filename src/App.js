@@ -1,83 +1,106 @@
+import { useEffect, useState } from "react";
 
 function App() {
+  const getIsDesktop = () => window.innerWidth > 768;
+  const [isDesktop, setIsDesktop] = useState(getIsDesktop);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+
+  useEffect(() => {
+    function handleResize() {
+      setIsDesktop(window.innerWidth > 768);
+    }
+
+    // Aggiungo il listener per il resize
+    window.addEventListener('resize', handleResize);
+    // Pulisco il listener quando il componente si smonta
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+
+
+
   return (
     <>
-      <Header>Ricettario React</Header>
-      <div class="container-fluid">
-        <div class="row">
-          <SidebarDesktop></SidebarDesktop>
+      <Header isDesktop={isDesktop} onMobileSidebar={setIsMobileSidebarOpen} >Ricettario React</Header>
+      <div className="container-fluid">
+        <div className="row">
+          {/* {isDesktop ? <SidebarDesktop /> : <SidebarMobile />} */}
+          {isDesktop ? <SidebarDesktop /> : (isMobileSidebarOpen && <SidebarMobile onMobileSidebar={setIsMobileSidebarOpen} />)}
+
           <MainContent></MainContent>
           <Footer>© 2025 App di Ricette - Realizzato con React</Footer>
         </div>
       </div>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     </>
   );
 }
-
-function Header({ children }) {
+// da rivedere bottone hamburgher
+function Header({ isDesktop, onMobileSidebar, children }) {
   return (
     <header>
       <h1>{children}</h1>
-      <button class="btn-burger d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar"
-        aria-controls="mobileSidebar" aria-label="Apri menu">
-        &#9776;
-      </button>
+      {!isDesktop &&
+        <button className="header-menu-button" type="button" aria-label="Apri menu" onClick={() => onMobileSidebar(true)} >
+          &#9776;
+        </button>
+      }
     </header>
   );
 }
 
 function SidebarDesktop() {
   return (
-    <nav class="col-md-3 col-lg-2 d-none d-md-block sidebar">
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item active">Pasta alla Carbonara</li>
-        <li class="list-group-item">Chicken Tikka Masala</li>
-        <li class="list-group-item">Sushi</li>
-        <li class="list-group-item">Tiramisù</li>
+    <nav className="col-md-3 col-lg-2  sidebar-desktop">
+      <ul className="recipe-list list-group-flush">
+        <li className="recipe-list-tem active">Pasta alla Carbonara</li>
+        <li className="recipe-list-tem">Chicken Tikka Masala</li>
+        <li className="recipe-list-tem">Sushi</li>
+        <li className="recipe-list-tem">Tiramisù</li>
       </ul>
     </nav>
   );
 }
 
-function SidebarMobile() {
+function SidebarMobile({ onMobileSidebar }) {
   return (
-    <div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="mobileSidebar"
-      aria-labelledby="mobileSidebarLabel">
-      <div class="offcanvas-header">
-        <h5 id="mobileSidebarLabel" class="mb-0">Le Ricette</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-          aria-label="Chiudi menu"></button>
+    <div className="mobile-sidebar">
+      <div className="mobile-sidebar-header">
+        <h5 id="mobileSidebarLabel" className="mb-0">Le Ricette</h5>
+        <button type="button" className="mobile-sidebar-close" aria-label="Chiudi menu" onClick={() => onMobileSidebar(false)}>×</button>
       </div>
-      <div class="offcanvas-body">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">Pasta alla Carbonara</li>
-          <li class="list-group-item">Chicken Tikka Masala</li>
-          <li class="list-group-item">Sushi</li>
-          <li class="list-group-item">Tiramisù</li>
+      <div className="offcanvas-body">
+        <ul className="list-group">
+          <li className="recipe-list-tem">Pasta alla Carbonara</li>
+          <li className="recipe-list-tem">Chicken Tikka Masala</li>
+          <li className="recipe-list-tem">Sushi</li>
+          <li className="recipe-list-tem">Tiramisù</li>
         </ul>
       </div>
     </div>
   );
 }
 
+
 function MainContent() {
   return (
-    <main class="col-md-9 col-lg-10 content">
-      <div class="recipe-card">
+    <main className="col-md-9 col-lg-10 content">
+      <div className="recipe-card">
         <h2>Pasta alla Carbonara</h2>
-        <p class="category-area">
+        <p className="category-area">
           <strong>Categoria:</strong> Pasta &nbsp;&nbsp;|&nbsp;&nbsp;
           <strong>Area:</strong> Italia
         </p>
         <p>
-          <a href="https://www.youtube.com/watch?v=3AAdKl1UYZs" target="_blank" class="video-link">Guarda il video su
+          <a href="https://www.youtube.com/watch?v=3AAdKl1UYZs" target="_blank" className="video-link">Guarda il video su
             YouTube</a>
         </p>
 
         <img src="https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg" alt="Pasta alla Carbonara"
-          class="recipe-img" />
+          className="recipe-img" />
 
         <h4>Ingredienti</h4>
         <ul>
