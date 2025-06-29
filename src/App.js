@@ -27,9 +27,9 @@ function App() {
       <Header isDesktop={isDesktop} onMobileSidebar={setIsMobileSidebarOpen} >Ricettario React</Header>
       <div className="container-fluid">
         <div className="row">
-          {/* {isDesktop ? <SidebarDesktop /> : <SidebarMobile />} */}
-          {isDesktop ? <SidebarDesktop /> : (isMobileSidebarOpen && <SidebarMobile onMobileSidebar={setIsMobileSidebarOpen} />)}
-
+          {/* {isDesktop ? <SidebarDesktop /> : (isMobileSidebarOpen && <SidebarMobile onMobileSidebar={setIsMobileSidebarOpen} />)} */}
+          {isDesktop && <SidebarDesktop />}
+          {!isDesktop && isMobileSidebarOpen && <SidebarMobile onMobileSidebar={setIsMobileSidebarOpen} />}
           <MainContent></MainContent>
           <Footer>© 2025 App di Ricette - Realizzato con React</Footer>
         </div>
@@ -38,11 +38,16 @@ function App() {
     </>
   );
 }
-// da rivedere bottone hamburgher
+
 function Header({ isDesktop, onMobileSidebar, children }) {
   return (
     <header>
-      <h1>{children}</h1>
+      <div className="header-title">
+        <h1>🍳 Ricette Facili</h1>
+        <p className="header-subtitle">
+          Scegli una ricetta per iniziare!
+        </p>
+      </div>
       {!isDesktop &&
         <button className="header-menu-button" type="button" aria-label="Apri menu" onClick={() => onMobileSidebar(true)} >
           &#9776;
@@ -51,6 +56,11 @@ function Header({ isDesktop, onMobileSidebar, children }) {
     </header>
   );
 }
+
+
+
+
+
 
 function SidebarDesktop() {
   return (
@@ -69,7 +79,7 @@ function SidebarMobile({ onMobileSidebar }) {
   return (
     <div className="mobile-sidebar">
       <div className="mobile-sidebar-header">
-        <h5 id="mobileSidebarLabel" className="mb-0">Le Ricette</h5>
+        <h5 className="mb-0">Le Ricette</h5>
         <button type="button" className="mobile-sidebar-close" aria-label="Chiudi menu" onClick={() => onMobileSidebar(false)}>×</button>
       </div>
       <div className="offcanvas-body">
@@ -89,20 +99,19 @@ function MainContent() {
   return (
     <main className="col-md-9 col-lg-10 content">
       <div className="recipe-card">
-        <h2>Pasta alla Carbonara</h2>
+        <h2>🍽️ Pasta alla Carbonara</h2>
         <p className="category-area">
           <strong>Categoria:</strong> Pasta &nbsp;&nbsp;|&nbsp;&nbsp;
           <strong>Area:</strong> Italia
         </p>
         <p>
-          <a href="https://www.youtube.com/watch?v=3AAdKl1UYZs" target="_blank" className="video-link">Guarda il video su
-            YouTube</a>
+          <a href="https://www.youtube.com/watch?v=3AAdKl1UYZs" target="_blank" className="video-link"> 🎥 Guarda il video</a>
         </p>
 
         <img src="https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg" alt="Pasta alla Carbonara"
           className="recipe-img" />
 
-        <h4>Ingredienti</h4>
+        <h4>🥕 Ingredienti</h4>
         <ul>
           <li>200g spaghetti</li>
           <li>100g pancetta</li>
@@ -111,7 +120,7 @@ function MainContent() {
           <li>Pepe nero q.b.</li>
         </ul>
 
-        <h4>Preparazione</h4>
+        <h4>🧑‍🍳 Preparazione</h4>
         <ol>
           <li>Cuoci la pasta al dente.</li>
           <li>Rosola la pancetta in padella.</li>
