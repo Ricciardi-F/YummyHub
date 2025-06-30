@@ -1,70 +1,86 @@
-# Getting Started with Create React App
+# Ricettario React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Un'applicazione frontend creata con **React** e **Bootstrap** per esplorare ricette culinarie.  
+L'interfaccia è basata su un layout a **sidebar** più un'area dettagli, ispirata al design one-page.  
+Il progetto è pensato come esercizio educativo, creato parallelamente alla fruizione di un corso su **React**, utilizzando un flusso di sviluppo ispirato alla metodologia **Agile**.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Obiettivi del progetto
 
-### `npm start`
+- Creare una UI moderna per la consultazione di ricette
+- Utilizzare dati statici (mock JSON) e successivamente integrarli con [TheMealDB API](https://www.themealdb.com/api.php)
+- Gestire il layout con Bootstrap (desktop + mobile responsive)
+- Organizzare il lavoro in Sprint usando un approccio Agile basato su Kanban
+- Documentare ogni fase del progetto in modo chiaro e riutilizzabile
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠️ Stack Tecnologico
 
-### `npm test`
+- **Frontend:** React (Vite o Create React App)
+- **UI/Styling:** Bootstrap 5
+- **Mock API/Data:** JSON locale e successiva integrazione con TheMealDB
+- **Gestione progetto:** Focalboard, metodologia Agile kanban
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 📁 Struttura del progetto (parziale)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+(In corso)
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🚀 Roadmap (Sprint Planning)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### ✅ Sprint 1 – Setup e Layout Base
+- [x] Mockup UI disegnato (Excalidraw)
+- [x] Creazione layout statico HTML con Bootstrap
+- [x] Creazione componenti React (`Header`, `Sidebar`, `RecipeDetails`)
+- [ ] Visualizzazione dati hardcoded
+- [x] Comportamento responsive di base su mobile
 
-### `npm run eject`
+### ⏳ Sprint 2 – Integrazione API e miglioramenti UX
+- [ ] Connessione a TheMealDB API
+- [ ] Componente di caricamento (Loader)
+- [ ] Gestione errore rete
+- [ ] Ricerca ricette
+- [ ] Refactor componenti in struttura modulare
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📷 Mockup
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Mockup creato con [Excalidraw](https://excalidraw.com) e versione statica in HTML.  
+Sono disponibili nella cartella [`/mockups`](./mockups).
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 📦 Installazione e Avvio
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+# Clona il progetto
+git clone https://github.com/Ricciardi-F/recipes.git
+cd recipes
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Installa le dipendenze
+npm install
 
-### Code Splitting
+# Avvia il progetto in locale
+npm run dev
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## 👨‍🍳 Autore
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **Federico** – sviluppatore curioso e appassionato, con focus su progetti educativi e solidi flussi di lavoro.  
+- 🧑‍💻 GitHub: [github.com/Ricciardi-F](https://github.com/Ricciardi-F)
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 📄 Licenza
 
-### Advanced Configuration
+Progetto personale senza scopo di lucro, pubblicato a fini educativi.  
+Basato su dati pubblici disponibili da TheMealDB.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---

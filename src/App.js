@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import recipes from "./ricette.json"
+import data from "./ricette.json"
 
 function App() {
   const getIsDesktop = () => window.innerWidth > 768;
@@ -84,12 +84,12 @@ function SidebarMobile({ onMobileSidebar }) {
 
 
 function RecipeList() {
+  const { meals } = data;
+
   return (
     <ul className="recipe-list">
-      <Recipe>Pasta alla Carbonara</Recipe>
-      <Recipe>Chicken Tikka Masala</Recipe>
-      <Recipe>Sushi</Recipe>
-      <Recipe>Tiramisù</Recipe>
+      {meals.map(item => (<Recipe key={item.idMeal}>{item.strMeal}</Recipe>))}
+
     </ul>
   );
 }
@@ -97,7 +97,7 @@ function RecipeList() {
 
 function Recipe({ children }) {
   return (
-    <li className="recipe-list-tem">{children}</li>
+    <li className="recipe-list-item">{children}</li>
   );
 }
 
