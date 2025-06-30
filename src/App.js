@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import recipes from "./ricette.json"
 
 function App() {
   const getIsDesktop = () => window.innerWidth > 768;
@@ -20,11 +21,9 @@ function App() {
   }, []);
 
 
-
-
   return (
     <>
-      <Header isDesktop={isDesktop} onMobileSidebar={setIsMobileSidebarOpen} >Ricettario React</Header>
+      <Header isDesktop={isDesktop} onMobileSidebar={setIsMobileSidebarOpen} >🍳 Ricette Facili</Header>
       <div className="container-fluid">
         <div className="row">
           {/* {isDesktop ? <SidebarDesktop /> : (isMobileSidebarOpen && <SidebarMobile onMobileSidebar={setIsMobileSidebarOpen} />)} */}
@@ -39,11 +38,13 @@ function App() {
   );
 }
 
+
+
 function Header({ isDesktop, onMobileSidebar, children }) {
   return (
     <header>
       <div className="header-title">
-        <h1>🍳 Ricette Facili</h1>
+        <h1>{children}</h1>
         <p className="header-subtitle">
           Scegli una ricetta per iniziare!
         </p>
@@ -58,22 +59,14 @@ function Header({ isDesktop, onMobileSidebar, children }) {
 }
 
 
-
-
-
-
 function SidebarDesktop() {
   return (
     <nav className="col-md-3 col-lg-2  sidebar-desktop">
-      <ul className="recipe-list list-group-flush">
-        <li className="recipe-list-tem active">Pasta alla Carbonara</li>
-        <li className="recipe-list-tem">Chicken Tikka Masala</li>
-        <li className="recipe-list-tem">Sushi</li>
-        <li className="recipe-list-tem">Tiramisù</li>
-      </ul>
+      <RecipeList></RecipeList>
     </nav>
   );
 }
+
 
 function SidebarMobile({ onMobileSidebar }) {
   return (
@@ -83,14 +76,28 @@ function SidebarMobile({ onMobileSidebar }) {
         <button type="button" className="mobile-sidebar-close" aria-label="Chiudi menu" onClick={() => onMobileSidebar(false)}>×</button>
       </div>
       <div className="offcanvas-body">
-        <ul className="list-group">
-          <li className="recipe-list-tem">Pasta alla Carbonara</li>
-          <li className="recipe-list-tem">Chicken Tikka Masala</li>
-          <li className="recipe-list-tem">Sushi</li>
-          <li className="recipe-list-tem">Tiramisù</li>
-        </ul>
+        <RecipeList></RecipeList>
       </div>
     </div>
+  );
+}
+
+
+function RecipeList() {
+  return (
+    <ul className="recipe-list">
+      <Recipe>Pasta alla Carbonara</Recipe>
+      <Recipe>Chicken Tikka Masala</Recipe>
+      <Recipe>Sushi</Recipe>
+      <Recipe>Tiramisù</Recipe>
+    </ul>
+  );
+}
+
+
+function Recipe({ children }) {
+  return (
+    <li className="recipe-list-tem">{children}</li>
   );
 }
 
@@ -105,31 +112,48 @@ function MainContent() {
           <strong>Area:</strong> Italia
         </p>
         <p>
-          <a href="https://www.youtube.com/watch?v=3AAdKl1UYZs" target="_blank" className="video-link"> 🎥 Guarda il video</a>
+          <a href="https://www.youtube.com/watch?v=3AAdKl1UYZs" className="video-link"> 🎥 Guarda il video</a>
         </p>
 
         <img src="https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg" alt="Pasta alla Carbonara"
           className="recipe-img" />
 
-        <h4>🥕 Ingredienti</h4>
-        <ul>
-          <li>200g spaghetti</li>
-          <li>100g pancetta</li>
-          <li>2 uova</li>
-          <li>50g pecorino</li>
-          <li>Pepe nero q.b.</li>
-        </ul>
+        <Ingredients></Ingredients>
+        <Procedure></Procedure>
 
-        <h4>🧑‍🍳 Preparazione</h4>
-        <ol>
-          <li>Cuoci la pasta al dente.</li>
-          <li>Rosola la pancetta in padella.</li>
-          <li>Sbatti le uova con il pecorino e pepe.</li>
-          <li>Scola la pasta e uniscila alla pancetta.</li>
-          <li>Fuori dal fuoco, aggiungi il mix di uova e mescola bene.</li>
-        </ol>
+
       </div>
     </main>
+  );
+}
+
+function Ingredients() {
+  return (
+    <>
+      <h4>🥕 Ingredienti</h4>
+      <ul>
+        <li>200g spaghetti</li>
+        <li>100g pancetta</li>
+        <li>2 uova</li>
+        <li>50g pecorino</li>
+        <li>Pepe nero q.b.</li>
+      </ul>
+    </>
+  );
+}
+
+function Procedure() {
+  return (
+    <>
+      <h4>🧑‍🍳 Preparazione</h4>
+      <ol>
+        <li>Cuoci la pasta al dente.</li>
+        <li>Rosola la pancetta in padella.</li>
+        <li>Sbatti le uova con il pecorino e pepe.</li>
+        <li>Scola la pasta e uniscila alla pancetta.</li>
+        <li>Fuori dal fuoco, aggiungi il mix di uova e mescola bene.</li>
+      </ol>
+    </>
   );
 }
 
@@ -140,5 +164,6 @@ function Footer({ children }) {
     </footer>
   );
 }
+
 
 export default App;
