@@ -2,29 +2,27 @@ import { useEffect, useState } from "react";
 import defaultRecipe from './defaultRecipe.json';
 
 
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(() => window.innerWidth > 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth > 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return isDesktop;
+}
 
 function App() {
-  const [isDesktop, setIsDesktop] = useState(() => window.innerWidth > 768);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(defaultRecipe);
   const [recipes, setRecipes] = useState([]);
 
 
-  //TODO refactor
-  useEffect(() => {
-    function handleResize() {
-      setIsDesktop(window.innerWidth > 768);
-    }
+  const isDesktop = useIsDesktop();
 
-    // Aggiungo il listener per il resize
-    window.addEventListener('resize', handleResize);
-    // Pulisco il listener quando il componente si smonta
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  async function getRecipeRequestById(id) {
+  async function fetchRecipeById(id) {
     const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
 
     try {
@@ -39,28 +37,7 @@ function App() {
     }
   }
 
-  async function getGetLimitedRequest(searchValue) {
-    const MAX_ITEMS = 10;
-    const URL = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchValue}`;
-    // const URL = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`;
-
-
-
-    try {
-      const response = await fetch(URL);
-      if (!response.ok) throw new Error(response.status);
-
-      const data = await response.json();
-      const limitedData = data.meals ? data.meals.slice(0, MAX_ITEMS) : [];
-      setRecipes(limitedData); // aggiornamento local
-
-    } catch (error) {
-      console.error("Errore nella fetch:", error);
-      setRecipes([]); // reset
-    }
-  }
-
-  async function getMergedResults(searchValue) {
+  async function fetchRecipesFromAllSources(searchValue) {
     const MAX_ITEMS = 10;
     const baseUrl = "https://www.themealdb.com/api/json/v1/1";
 
@@ -100,9 +77,9 @@ function App() {
           <Sidebar isDesktop={isDesktop}
             isMobileSidebarOpen={isMobileSidebarOpen}
             onToggleSidebar={setIsMobileSidebarOpen}
-            onGetRecepiesRequest={getMergedResults}
+            onGetRecipesRequest={fetchRecipesFromAllSources}
             recipes={recipes}
-            onRecipeRequestById={getRecipeRequestById}
+            onSelectRecipeById={fetchRecipeById}
           />
 
           <MainContent selectedRecipe={selectedRecipe}></MainContent>
@@ -135,7 +112,7 @@ function Header({ isDesktop, onToggleSidebar, children }) {
   );
 }
 
-function Sidebar({ onGetRecepiesRequest, recipes, onRecipeRequestById, isDesktop, isMobileSidebarOpen, onToggleSidebar }) {
+function Sidebar({ onGetRecipesRequest, recipes, onSelectRecipeById, isDesktop, isMobileSidebarOpen, onToggleSidebar }) {
 
 
   return (
@@ -143,28 +120,28 @@ function Sidebar({ onGetRecepiesRequest, recipes, onRecipeRequestById, isDesktop
       {isDesktop &&
         <SidebarDesktop
           recipes={recipes}
-          onRecipeRequestById={onRecipeRequestById}
-          onGetRecepiesRequest={onGetRecepiesRequest} />}
+          onSelectRecipeById={onSelectRecipeById}
+          onGetRecipesRequest={onGetRecipesRequest} />}
       {!isDesktop && isMobileSidebarOpen &&
         <SidebarMobile
           recipes={recipes}
-          onRecipeRequestById={onRecipeRequestById}
-          onGetRecepiesRequest={onGetRecepiesRequest}
+          onSelectRecipeById={onSelectRecipeById}
+          onGetRecipesRequest={onGetRecipesRequest}
           onToggleSidebar={onToggleSidebar}
         />}
     </>
   );
 }
 
-function SidebarMobile({ recipes, onRecipeRequestById, onToggleSidebar, onGetRecepiesRequest }) {
+function SidebarMobile({ recipes, onSelectRecipeById, onToggleSidebar, onGetRecipesRequest }) {
   return (
     <div className="mobile-sidebar">
       <div className="mobile-sidebar-header">
-        <SearchBar onGetRequest={onGetRecepiesRequest}></SearchBar>
+        <SearchBar onGetRequest={onGetRecipesRequest}></SearchBar>
         <button type="button" className="mobile-sidebar-close" aria-label="Chiudi menu" onClick={() => onToggleSidebar(false)}>×</button>
       </div>
       <div className="offcanvas-body">
-        <RecipeList recipes={recipes} onRecipeRequestById={onRecipeRequestById} onToggleSidebar={onToggleSidebar} ></RecipeList>
+        <RecipeList recipes={recipes} onSelectRecipeById={onSelectRecipeById} onToggleSidebar={onToggleSidebar} ></RecipeList>
       </div>
     </div>
   );
@@ -172,11 +149,11 @@ function SidebarMobile({ recipes, onRecipeRequestById, onToggleSidebar, onGetRec
 
 // 3496610203
 
-function SidebarDesktop({ onGetRecepiesRequest, recipes, onRecipeRequestById }) {
+function SidebarDesktop({ onGetRecipesRequest, recipes, onSelectRecipeById }) {
   return (
     <nav className="col-md-2 col-lg-2 sidebar-desktop px-4">
-      <SearchBar onGetRequest={onGetRecepiesRequest}></SearchBar>
-      <RecipeList recipes={recipes} onRecipeRequestById={onRecipeRequestById}></RecipeList>
+      <SearchBar onGetRequest={onGetRecipesRequest}></SearchBar>
+      <RecipeList recipes={recipes} onSelectRecipeById={onSelectRecipeById}></RecipeList>
     </nav>
   );
 }
@@ -218,13 +195,13 @@ function SearchBar({ onGetRequest }) {
 }
 
 
-function RecipeList({ recipes, onRecipeRequestById, onToggleSidebar }) {
+function RecipeList({ recipes, onSelectRecipeById, onToggleSidebar }) {
   return (
     <ul className="recipe-list">
       {recipes.map(item => (
         <Recipe
           key={item.idMeal}
-          onRecipeRequestById={onRecipeRequestById}
+          onSelectRecipeById={onSelectRecipeById}
           onToggleSidebar={onToggleSidebar}
           recipeObj={item} />))}
     </ul>
@@ -232,15 +209,15 @@ function RecipeList({ recipes, onRecipeRequestById, onToggleSidebar }) {
 }
 
 
-function Recipe({ recipeObj, onRecipeRequestById, onToggleSidebar }) {
+function Recipe({ recipeObj, onSelectRecipeById, onToggleSidebar }) {
 
   function handleRecipeClick() {
-    onRecipeRequestById(recipeObj.idMeal);
+    onSelectRecipeById(recipeObj.idMeal);
     if (onToggleSidebar) onToggleSidebar(false); //close the sidebar if it is open
   }
 
   return (
-    <li onClick={() => handleRecipeClick()} className="recipe-list-item">{recipeObj.strMeal}</li>
+    <li onClick={handleRecipeClick} className="recipe-list-item">{recipeObj.strMeal}</li>
   );
 }
 
@@ -281,30 +258,30 @@ function MainContent({ selectedRecipe }) {
         </p>
 
         <img src={image} alt={name} className="recipe-img" />
-        <Ingredients dataArray={ingredients}></Ingredients>
-        <Procedure dataArray={instructions}></Procedure>
+        <Ingredients ingredients={ingredients}></Ingredients>
+        <Procedure instructions={instructions}></Procedure>
       </div>
     </main>
   );
 }
 
-function Ingredients({ dataArray }) {
+function Ingredients({ ingredients }) {
   return (
     <>
       <h4>🥕 Ingredienti</h4>
       <ul>
-        {dataArray.map(([key, value]) => <li key={key}>{value}</li>)}
+        {ingredients.map(([key, value]) => <li key={key}>{value}</li>)}
       </ul>
     </>
   );
 }
 
-function Procedure({ dataArray }) {
+function Procedure({ instructions }) {
   return (
     <>
       <h4>🧑‍🍳 Preparazione</h4>
       <ul>
-        {dataArray.map(value => <li key={value}>{value}</li>)}
+        {instructions.map(value => <li key={value}>{value}</li>)}
       </ul>
     </>
   );
