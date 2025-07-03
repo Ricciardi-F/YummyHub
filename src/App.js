@@ -3,10 +3,11 @@ import defaultRecipe from './defaultRecipe.json';
 
 
 function useIsDesktop() {
-  const [isDesktop, setIsDesktop] = useState(() => window.innerWidth > 768);
+  const MIN_WIDTH = 768;
+  const [isDesktop, setIsDesktop] = useState(() => window.innerWidth > MIN_WIDTH);
 
   useEffect(() => {
-    const handleResize = () => setIsDesktop(window.innerWidth > 768);
+    const handleResize = () => setIsDesktop(window.innerWidth > MIN_WIDTH);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -38,7 +39,7 @@ function App() {
   }
 
   async function fetchRecipesFromAllSources(searchValue) {
-    const MAX_ITEMS = 10;
+    const MAX_ITEMS = 20;
     const baseUrl = "https://www.themealdb.com/api/json/v1/1";
 
     const urls = [
@@ -147,7 +148,6 @@ function SidebarMobile({ recipes, onSelectRecipeById, onToggleSidebar, onGetReci
   );
 }
 
-// 3496610203
 
 function SidebarDesktop({ onGetRecipesRequest, recipes, onSelectRecipeById }) {
   return (
@@ -245,6 +245,7 @@ function MainContent({ selectedRecipe }) {
   const ingredients = getIngredients(selectedRecipe);
   const instructions = getInstructions(selectedRecipe);
 
+  // TODO aprire video in un altra scheda
   return (
     <main className="col-md-9 col-lg-10 content">
       <div className="recipe-card">
