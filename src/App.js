@@ -24,14 +24,15 @@ function App() {
 
   return (
     <>
-      <Header isDesktop={isDesktop} onMobileSidebar={setIsMobileSidebarOpen} >🍳 Ricette Facili</Header>
+      <Header isDesktop={isDesktop} onToggleSidebar={setIsMobileSidebarOpen} >🍳 Ricette Facili</Header>
       <div className="container-fluid">
         <div className="row">
           {isDesktop && <SidebarDesktop onSetSelectedRecipe={setSelectedRecipe} />}
-          {!isDesktop && isMobileSidebarOpen && <SidebarMobile onMobileSidebar={setIsMobileSidebarOpen} onSetSelectedRecipe={setSelectedRecipe} />}
+          {!isDesktop && isMobileSidebarOpen && <SidebarMobile onToggleSidebar={setIsMobileSidebarOpen} onSetSelectedRecipe={setSelectedRecipe} />}
           <MainContent selectedRecipe={selectedRecipe}></MainContent>
-          <Footer>© 2025 App di Ricette - Realizzato con React</Footer>
         </div>
+        <Footer>© 2025 App di Ricette - Realizzato con React</Footer>
+
       </div>
 
     </>
@@ -40,7 +41,7 @@ function App() {
 
 
 
-function Header({ isDesktop, onMobileSidebar, children }) {
+function Header({ isDesktop, onToggleSidebar, children }) {
   return (
     <header>
       <div className="header-title">
@@ -50,7 +51,7 @@ function Header({ isDesktop, onMobileSidebar, children }) {
         </p>
       </div>
       {!isDesktop &&
-        <button className="header-menu-button" type="button" aria-label="Apri menu" onClick={() => onMobileSidebar(true)} >
+        <button className="header-menu-button" type="button" aria-label="Apri menu" onClick={() => onToggleSidebar(true)} >
           &#9776;
         </button>
       }
@@ -61,36 +62,69 @@ function Header({ isDesktop, onMobileSidebar, children }) {
 
 function SidebarDesktop({ onSetSelectedRecipe }) {
   return (
-    <nav className="col-md-3 col-lg-2  sidebar-desktop">
+    <nav className="col-md-2 col-lg-2 sidebar-desktop px-4">
+      <SearchBar></SearchBar>
       <RecipeList onSetSelectedRecipe={onSetSelectedRecipe}></RecipeList>
     </nav>
   );
 }
 
 
-function SidebarMobile({ onMobileSidebar, onSetSelectedRecipe }) {
+
+
+function SidebarMobile({ onToggleSidebar, onSetSelectedRecipe }) {
   return (
     <div className="mobile-sidebar">
       <div className="mobile-sidebar-header">
-        <h5 className="mb-0">Le Ricette</h5>
-        <button type="button" className="mobile-sidebar-close" aria-label="Chiudi menu" onClick={() => onMobileSidebar(false)}>×</button>
+        <SearchBar></SearchBar>
+        <button type="button" className="mobile-sidebar-close" aria-label="Chiudi menu" onClick={() => onToggleSidebar(false)}>×</button>
       </div>
       <div className="offcanvas-body">
-        <RecipeList onSetSelectedRecipe={onSetSelectedRecipe} onMobileSidebar={onMobileSidebar} ></RecipeList>
+        <RecipeList onSetSelectedRecipe={onSetSelectedRecipe} onToggleSidebar={onToggleSidebar} ></RecipeList>
       </div>
     </div>
   );
 }
 
 
-function RecipeList({ onSetSelectedRecipe, onMobileSidebar }) {
+function SearchBar() {
+  const [searchValue, setSearchValue] = useState("");
+
+  function handleSubmit(e) {
+    e.preventDefault(); //evita il reload della pagina al submit
+    setSearchValue(""); //reset searchBar
+  }
+
+  return (
+    <form className="py-2 search-bar" role="search" onSubmit={handleSubmit} aria-label="Cerca ricette">
+      <div className="input-group">
+        <input
+          type="search"
+          class="form-control"
+          placeholder="Cerca ricetta..."
+          aria-label="Cerca ricetta"
+          name="search"
+          value={searchValue}
+          onChange={e => setSearchValue(e.target.value)}
+          autocomplete="off"
+        />
+        <button class="btn btn-custom-search" aria-label="Avvia ricerca">
+          ►
+        </button>
+      </div>
+    </form>
+  );
+}
+
+
+function RecipeList({ onSetSelectedRecipe, onToggleSidebar }) {
   const { meals } = data;
 
   return (
     <ul className="recipe-list">
       {meals.map(item => (<Recipe key={item.idMeal}
         onSetSelectedRecipe={onSetSelectedRecipe}
-        onMobileSidebar={onMobileSidebar}
+        onToggleSidebar={onToggleSidebar}
         recipeObj={item}></Recipe>))}
 
     </ul>
@@ -98,10 +132,11 @@ function RecipeList({ onSetSelectedRecipe, onMobileSidebar }) {
 }
 
 
-function Recipe({ recipeObj, onSetSelectedRecipe, onMobileSidebar }) {
+function Recipe({ recipeObj, onSetSelectedRecipe, onToggleSidebar }) {
+
   function handleRecipeClick() {
     onSetSelectedRecipe(recipeObj);
-    if (onMobileSidebar) onMobileSidebar(false); //work only on mobile version
+    if (onToggleSidebar) onToggleSidebar(false); //close the sidebar if it is open
   }
 
   return (
