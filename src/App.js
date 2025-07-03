@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import data from "./ricette.json"
 
+
+
+
+
 function App() {
   const [isDesktop, setIsDesktop] = useState(() => window.innerWidth > 768);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -27,8 +31,13 @@ function App() {
       <Header isDesktop={isDesktop} onToggleSidebar={setIsMobileSidebarOpen} >🍳 Ricette Facili</Header>
       <div className="container-fluid">
         <div className="row">
-          {isDesktop && <SidebarDesktop onSetSelectedRecipe={setSelectedRecipe} />}
-          {!isDesktop && isMobileSidebarOpen && <SidebarMobile onToggleSidebar={setIsMobileSidebarOpen} onSetSelectedRecipe={setSelectedRecipe} />}
+
+          <Sidebar isDesktop={isDesktop}
+            onSetSelectedRecipe={setSelectedRecipe}
+            isMobileSidebarOpen={isMobileSidebarOpen}
+            onToggleSidebar={setIsMobileSidebarOpen}
+          />
+
           <MainContent selectedRecipe={selectedRecipe}></MainContent>
         </div>
         <Footer>© 2025 App di Ricette - Realizzato con React</Footer>
@@ -39,7 +48,14 @@ function App() {
   );
 }
 
-
+function Sidebar({ isDesktop, onSetSelectedRecipe, isMobileSidebarOpen, onToggleSidebar }) {
+  return (
+    <>
+      {isDesktop && <SidebarDesktop onSetSelectedRecipe={onSetSelectedRecipe} />}
+      {!isDesktop && isMobileSidebarOpen && <SidebarMobile onToggleSidebar={onToggleSidebar} onSetSelectedRecipe={onSetSelectedRecipe} />}
+    </>
+  );
+}
 
 function Header({ isDesktop, onToggleSidebar, children }) {
   return (
@@ -87,28 +103,41 @@ function SidebarMobile({ onToggleSidebar, onSetSelectedRecipe }) {
 }
 
 
+
 function SearchBar() {
   const [searchValue, setSearchValue] = useState("");
 
   function handleSubmit(e) {
+    const MAX_ITEMS = 5;
+
     e.preventDefault(); //evita il reload della pagina al submit
+
+    fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchValue}`)
+      .then(response => response.json())
+      .then(data => {
+        const limitedMeals = data.meals ? data.meals.slice(0, MAX_ITEMS) : [];
+        console.log(limitedMeals);
+      });
+
     setSearchValue(""); //reset searchBar
   }
+
+
 
   return (
     <form className="py-2 search-bar" role="search" onSubmit={handleSubmit} aria-label="Cerca ricette">
       <div className="input-group">
         <input
           type="search"
-          class="form-control"
+          className="form-control"
           placeholder="Cerca ricetta..."
           aria-label="Cerca ricetta"
           name="search"
           value={searchValue}
           onChange={e => setSearchValue(e.target.value)}
-          autocomplete="off"
+          autoComplete="off"
         />
-        <button class="btn btn-custom-search" aria-label="Avvia ricerca">
+        <button className="btn btn-custom-search" aria-label="Avvia ricerca">
           ►
         </button>
       </div>
