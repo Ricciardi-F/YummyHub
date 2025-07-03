@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import data from "./ricette.json"
 
 function App() {
-  const getIsDesktop = () => window.innerWidth > 768;
-  const [isDesktop, setIsDesktop] = useState(getIsDesktop);
+  const [isDesktop, setIsDesktop] = useState(() => window.innerWidth > 768);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
 
@@ -28,7 +27,6 @@ function App() {
       <Header isDesktop={isDesktop} onMobileSidebar={setIsMobileSidebarOpen} >🍳 Ricette Facili</Header>
       <div className="container-fluid">
         <div className="row">
-          {/* {isDesktop ? <SidebarDesktop /> : (isMobileSidebarOpen && <SidebarMobile onMobileSidebar={setIsMobileSidebarOpen} />)} */}
           {isDesktop && <SidebarDesktop onSetSelectedRecipe={setSelectedRecipe} />}
           {!isDesktop && isMobileSidebarOpen && <SidebarMobile onMobileSidebar={setIsMobileSidebarOpen} onSetSelectedRecipe={setSelectedRecipe} />}
           <MainContent selectedRecipe={selectedRecipe}></MainContent>
@@ -103,26 +101,37 @@ function RecipeList({ onSetSelectedRecipe, onMobileSidebar }) {
 function Recipe({ recipeObj, onSetSelectedRecipe, onMobileSidebar }) {
   function handleRecipeClick() {
     onSetSelectedRecipe(recipeObj);
-    if (onMobileSidebar) onMobileSidebar(false); //work only in obile version
-
+    if (onMobileSidebar) onMobileSidebar(false); //work only on mobile version
   }
 
   return (
-    <li onClick={() => handleRecipeClick(recipeObj)} className="recipe-list-item">{recipeObj.strMeal}</li>
+    <li onClick={() => handleRecipeClick()} className="recipe-list-item">{recipeObj.strMeal}</li>
   );
 }
 
+function getIngredients(recipe) {
+  return Object.entries(recipe).filter(([k, v]) => k.startsWith("strIngredient") && v?.trim());
+}
+function getInstructions(recipe) {
+  return recipe.strInstructions.split('.').map(i => i.trim()).filter(i => i.length > 0);
+}
 
 function MainContent({ selectedRecipe }) {
-  if (!selectedRecipe) return;
+  if (!selectedRecipe) return (
+    <main className="col-md-9 col-lg-10 content">
+      <div className="recipe-card placeholder">
+        <p>Seleziona una ricetta dal menu per iniziare!</p>
+      </div>
+    </main>
+  );
 
   const name = selectedRecipe.strMeal;
   const category = selectedRecipe.strCategory;
   const area = selectedRecipe.strArea;
   const video = selectedRecipe.strYoutube;
   const image = selectedRecipe.strMealThumb;
-  const ingredients = Object.entries(selectedRecipe).filter(([k, v]) => k.startsWith("strIngredient"));
-  const instructions = selectedRecipe.strInstructions.split('.').map(i => i.trim()).filter(i => i.length > 0);
+  const ingredients = getIngredients(selectedRecipe);
+  const instructions = getInstructions(selectedRecipe);
 
   return (
     <main className="col-md-9 col-lg-10 content">
@@ -133,7 +142,7 @@ function MainContent({ selectedRecipe }) {
           <strong>Area:</strong> {area}
         </p>
         <p>
-          <a href={video} className="video-link"> 🎥 Guarda il video</a>
+          {video && <a href={video} className="video-link"> 🎥 Guarda il video</a>}
         </p>
 
         <img src={image} alt={name} className="recipe-img" />
@@ -156,7 +165,6 @@ function Ingredients({ dataArray }) {
 }
 
 function Procedure({ dataArray }) {
-
   return (
     <>
       <h4>🧑‍🍳 Preparazione</h4>
