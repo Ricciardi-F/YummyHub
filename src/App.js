@@ -5,6 +5,8 @@ function App() {
   const getIsDesktop = () => window.innerWidth > 768;
   const [isDesktop, setIsDesktop] = useState(getIsDesktop);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+
 
 
   useEffect(() => {
@@ -27,9 +29,9 @@ function App() {
       <div className="container-fluid">
         <div className="row">
           {/* {isDesktop ? <SidebarDesktop /> : (isMobileSidebarOpen && <SidebarMobile onMobileSidebar={setIsMobileSidebarOpen} />)} */}
-          {isDesktop && <SidebarDesktop />}
-          {!isDesktop && isMobileSidebarOpen && <SidebarMobile onMobileSidebar={setIsMobileSidebarOpen} />}
-          <MainContent></MainContent>
+          {isDesktop && <SidebarDesktop onSetSelectedRecipe={setSelectedRecipe} />}
+          {!isDesktop && isMobileSidebarOpen && <SidebarMobile onMobileSidebar={setIsMobileSidebarOpen} onSetSelectedRecipe={setSelectedRecipe} />}
+          <MainContent selectedRecipe={selectedRecipe}></MainContent>
           <Footer>© 2025 App di Ricette - Realizzato con React</Footer>
         </div>
       </div>
@@ -59,16 +61,16 @@ function Header({ isDesktop, onMobileSidebar, children }) {
 }
 
 
-function SidebarDesktop() {
+function SidebarDesktop({ onSetSelectedRecipe }) {
   return (
     <nav className="col-md-3 col-lg-2  sidebar-desktop">
-      <RecipeList></RecipeList>
+      <RecipeList onSetSelectedRecipe={onSetSelectedRecipe}></RecipeList>
     </nav>
   );
 }
 
 
-function SidebarMobile({ onMobileSidebar }) {
+function SidebarMobile({ onMobileSidebar, onSetSelectedRecipe }) {
   return (
     <div className="mobile-sidebar">
       <div className="mobile-sidebar-header">
@@ -76,82 +78,90 @@ function SidebarMobile({ onMobileSidebar }) {
         <button type="button" className="mobile-sidebar-close" aria-label="Chiudi menu" onClick={() => onMobileSidebar(false)}>×</button>
       </div>
       <div className="offcanvas-body">
-        <RecipeList></RecipeList>
+        <RecipeList onSetSelectedRecipe={onSetSelectedRecipe} onMobileSidebar={onMobileSidebar} ></RecipeList>
       </div>
     </div>
   );
 }
 
 
-function RecipeList() {
+function RecipeList({ onSetSelectedRecipe, onMobileSidebar }) {
   const { meals } = data;
 
   return (
     <ul className="recipe-list">
-      {meals.map(item => (<Recipe key={item.idMeal}>{item.strMeal}</Recipe>))}
+      {meals.map(item => (<Recipe key={item.idMeal}
+        onSetSelectedRecipe={onSetSelectedRecipe}
+        onMobileSidebar={onMobileSidebar}
+        recipeObj={item}></Recipe>))}
 
     </ul>
   );
 }
 
 
-function Recipe({ children }) {
+function Recipe({ recipeObj, onSetSelectedRecipe, onMobileSidebar }) {
+  function handleRecipeClick() {
+    onSetSelectedRecipe(recipeObj);
+    if (onMobileSidebar) onMobileSidebar(false); //work only in obile version
+
+  }
+
   return (
-    <li className="recipe-list-item">{children}</li>
+    <li onClick={() => handleRecipeClick(recipeObj)} className="recipe-list-item">{recipeObj.strMeal}</li>
   );
 }
 
 
-function MainContent() {
+function MainContent({ selectedRecipe }) {
+  if (!selectedRecipe) return;
+
+  const name = selectedRecipe.strMeal;
+  const category = selectedRecipe.strCategory;
+  const area = selectedRecipe.strArea;
+  const video = selectedRecipe.strYoutube;
+  const image = selectedRecipe.strMealThumb;
+  const ingredients = Object.entries(selectedRecipe).filter(([k, v]) => k.startsWith("strIngredient"));
+  const instructions = selectedRecipe.strInstructions.split('.').map(i => i.trim()).filter(i => i.length > 0);
+
   return (
     <main className="col-md-9 col-lg-10 content">
       <div className="recipe-card">
-        <h2>🍽️ Pasta alla Carbonara</h2>
+        <h2>🍽️ {name}</h2>
         <p className="category-area">
-          <strong>Categoria:</strong> Pasta &nbsp;&nbsp;|&nbsp;&nbsp;
-          <strong>Area:</strong> Italia
+          <strong>Categoria:</strong> {category} &nbsp;&nbsp;|&nbsp;&nbsp;
+          <strong>Area:</strong> {area}
         </p>
         <p>
-          <a href="https://www.youtube.com/watch?v=3AAdKl1UYZs" className="video-link"> 🎥 Guarda il video</a>
+          <a href={video} className="video-link"> 🎥 Guarda il video</a>
         </p>
 
-        <img src="https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg" alt="Pasta alla Carbonara"
-          className="recipe-img" />
-
-        <Ingredients></Ingredients>
-        <Procedure></Procedure>
-
-
+        <img src={image} alt={name} className="recipe-img" />
+        <Ingredients dataArray={ingredients}></Ingredients>
+        <Procedure dataArray={instructions}></Procedure>
       </div>
     </main>
   );
 }
 
-function Ingredients() {
+function Ingredients({ dataArray }) {
   return (
     <>
       <h4>🥕 Ingredienti</h4>
       <ul>
-        <li>200g spaghetti</li>
-        <li>100g pancetta</li>
-        <li>2 uova</li>
-        <li>50g pecorino</li>
-        <li>Pepe nero q.b.</li>
+        {dataArray.map(([key, value]) => <li key={key}>{value}</li>)}
       </ul>
     </>
   );
 }
 
-function Procedure() {
+function Procedure({ dataArray }) {
+
   return (
     <>
       <h4>🧑‍🍳 Preparazione</h4>
       <ol>
-        <li>Cuoci la pasta al dente.</li>
-        <li>Rosola la pancetta in padella.</li>
-        <li>Sbatti le uova con il pecorino e pepe.</li>
-        <li>Scola la pasta e uniscila alla pancetta.</li>
-        <li>Fuori dal fuoco, aggiungi il mix di uova e mescola bene.</li>
+        {dataArray.map(value => <li key={value}>{value}</li>)}
       </ol>
     </>
   );
