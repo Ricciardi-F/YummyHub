@@ -45,7 +45,6 @@ function App() {
     // const URL = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`;
 
 
-    console.log("searchValue: " + searchValue);
 
     try {
       const response = await fetch(URL);
@@ -61,6 +60,37 @@ function App() {
     }
   }
 
+  async function getMergedResults(searchValue) {
+    const MAX_ITEMS = 10;
+    const baseUrl = "https://www.themealdb.com/api/json/v1/1";
+
+    const urls = [
+      `${baseUrl}/filter.php?i=${searchValue}`,
+      `${baseUrl}/search.php?s=${searchValue}`,
+      `${baseUrl}/filter.php?c=${searchValue}`,
+    ];
+
+    try {
+      const responses = await Promise.all(
+        urls.map((url) => fetch(url).then((res) => res.json()))
+      );
+
+      // Unisci tutti i risultati filtrando quelli null
+      const allMeals = responses.flatMap((res) => res.meals || []);
+
+      // Elimina duplicati usando una Map (alternativa a Set per oggetti)
+      const dedupedMeals = Array.from(
+        new Map(allMeals.map((m) => [m.idMeal, m])).values()
+      );
+
+      // Limita e aggiorna
+      setRecipes(dedupedMeals.slice(0, MAX_ITEMS));
+    } catch (err) {
+      console.error("Errore nella fetch multipla:", err);
+      setRecipes([]);
+    }
+  }
+
   return (
     <>
       <Header isDesktop={isDesktop} onToggleSidebar={setIsMobileSidebarOpen} >🍳 Ricette Facili</Header>
@@ -70,7 +100,7 @@ function App() {
           <Sidebar isDesktop={isDesktop}
             isMobileSidebarOpen={isMobileSidebarOpen}
             onToggleSidebar={setIsMobileSidebarOpen}
-            onGetLimitedRequest={getGetLimitedRequest}
+            onGetRecepiesRequest={getMergedResults}
             recipes={recipes}
             onRecipeRequestById={getRecipeRequestById}
           />
@@ -105,7 +135,7 @@ function Header({ isDesktop, onToggleSidebar, children }) {
   );
 }
 
-function Sidebar({ onGetLimitedRequest, recipes, onRecipeRequestById, isDesktop, isMobileSidebarOpen, onToggleSidebar }) {
+function Sidebar({ onGetRecepiesRequest, recipes, onRecipeRequestById, isDesktop, isMobileSidebarOpen, onToggleSidebar }) {
 
 
   return (
@@ -114,23 +144,23 @@ function Sidebar({ onGetLimitedRequest, recipes, onRecipeRequestById, isDesktop,
         <SidebarDesktop
           recipes={recipes}
           onRecipeRequestById={onRecipeRequestById}
-          onGetLimitedRequest={onGetLimitedRequest} />}
+          onGetRecepiesRequest={onGetRecepiesRequest} />}
       {!isDesktop && isMobileSidebarOpen &&
         <SidebarMobile
           recipes={recipes}
           onRecipeRequestById={onRecipeRequestById}
-          onGetLimitedRequest={onGetLimitedRequest}
+          onGetRecepiesRequest={onGetRecepiesRequest}
           onToggleSidebar={onToggleSidebar}
         />}
     </>
   );
 }
 
-function SidebarMobile({ recipes, onRecipeRequestById, onToggleSidebar, onGetLimitedRequest }) {
+function SidebarMobile({ recipes, onRecipeRequestById, onToggleSidebar, onGetRecepiesRequest }) {
   return (
     <div className="mobile-sidebar">
       <div className="mobile-sidebar-header">
-        <SearchBar onGetRequest={onGetLimitedRequest}></SearchBar>
+        <SearchBar onGetRequest={onGetRecepiesRequest}></SearchBar>
         <button type="button" className="mobile-sidebar-close" aria-label="Chiudi menu" onClick={() => onToggleSidebar(false)}>×</button>
       </div>
       <div className="offcanvas-body">
@@ -142,10 +172,10 @@ function SidebarMobile({ recipes, onRecipeRequestById, onToggleSidebar, onGetLim
 
 // 3496610203
 
-function SidebarDesktop({ onGetLimitedRequest, recipes, onRecipeRequestById }) {
+function SidebarDesktop({ onGetRecepiesRequest, recipes, onRecipeRequestById }) {
   return (
     <nav className="col-md-2 col-lg-2 sidebar-desktop px-4">
-      <SearchBar onGetRequest={onGetLimitedRequest}></SearchBar>
+      <SearchBar onGetRequest={onGetRecepiesRequest}></SearchBar>
       <RecipeList recipes={recipes} onRecipeRequestById={onRecipeRequestById}></RecipeList>
     </nav>
   );
@@ -273,9 +303,9 @@ function Procedure({ dataArray }) {
   return (
     <>
       <h4>🧑‍🍳 Preparazione</h4>
-      <ol>
+      <ul>
         {dataArray.map(value => <li key={value}>{value}</li>)}
-      </ol>
+      </ul>
     </>
   );
 }
