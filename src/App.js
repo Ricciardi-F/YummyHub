@@ -61,7 +61,6 @@ function App() {
     }
   }
 
-
   return (
     <>
       <Header isDesktop={isDesktop} onToggleSidebar={setIsMobileSidebarOpen} >🍳 Ricette Facili</Header>
@@ -69,7 +68,6 @@ function App() {
         <div className="row">
 
           <Sidebar isDesktop={isDesktop}
-            onSetSelectedRecipe={setSelectedRecipe}
             isMobileSidebarOpen={isMobileSidebarOpen}
             onToggleSidebar={setIsMobileSidebarOpen}
             onGetLimitedRequest={getGetLimitedRequest}
@@ -107,32 +105,40 @@ function Header({ isDesktop, onToggleSidebar, children }) {
   );
 }
 
-function Sidebar({ onGetLimitedRequest, recipes, onRecipeRequestById, isDesktop, onSetSelectedRecipe, isMobileSidebarOpen, onToggleSidebar }) {
+function Sidebar({ onGetLimitedRequest, recipes, onRecipeRequestById, isDesktop, isMobileSidebarOpen, onToggleSidebar }) {
 
 
   return (
     <>
-      {/* {isDesktop && <SidebarDesktopOld onSetSelectedRecipe={onSetSelectedRecipe} />} */}
-      {isDesktop && <SidebarDesktop recipes={recipes} onRecipeRequestById={onRecipeRequestById} onGetLimitedRequest={onGetLimitedRequest} />}
-      {!isDesktop && isMobileSidebarOpen && <SidebarMobile onToggleSidebar={onToggleSidebar} onSetSelectedRecipe={onSetSelectedRecipe} />}
+      {isDesktop &&
+        <SidebarDesktop
+          recipes={recipes}
+          onRecipeRequestById={onRecipeRequestById}
+          onGetLimitedRequest={onGetLimitedRequest} />}
+      {!isDesktop && isMobileSidebarOpen &&
+        <SidebarMobile
+          recipes={recipes}
+          onRecipeRequestById={onRecipeRequestById}
+          onGetLimitedRequest={onGetLimitedRequest}
+          onToggleSidebar={onToggleSidebar}
+        />}
     </>
   );
 }
 
-function SidebarMobile({ onToggleSidebar, onSetSelectedRecipe }) {
+function SidebarMobile({ recipes, onRecipeRequestById, onToggleSidebar, onGetLimitedRequest }) {
   return (
     <div className="mobile-sidebar">
       <div className="mobile-sidebar-header">
-        <SearchBar></SearchBar>
+        <SearchBar onGetRequest={onGetLimitedRequest}></SearchBar>
         <button type="button" className="mobile-sidebar-close" aria-label="Chiudi menu" onClick={() => onToggleSidebar(false)}>×</button>
       </div>
       <div className="offcanvas-body">
-        <RecipeList onSetSelectedRecipe={onSetSelectedRecipe} onToggleSidebar={onToggleSidebar} ></RecipeList>
+        <RecipeList recipes={recipes} onRecipeRequestById={onRecipeRequestById} onToggleSidebar={onToggleSidebar} ></RecipeList>
       </div>
     </div>
   );
 }
-
 
 // 3496610203
 
@@ -149,22 +155,16 @@ function SidebarDesktop({ onGetLimitedRequest, recipes, onRecipeRequestById }) {
 
 
 
-
-
-
 function SearchBar({ onGetRequest }) {
   const [searchValue, setSearchValue] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault(); //evita il reload della pagina al submit
     if (!searchValue.trim()) return;
-
     //chiamata fetch
     onGetRequest(searchValue.trim());
     setSearchValue(""); //reset searchBar
   }
-
-
 
   return (
     <form className="py-2 search-bar" role="search" onSubmit={e => handleSubmit(e)} aria-label="Cerca ricette">
@@ -189,14 +189,14 @@ function SearchBar({ onGetRequest }) {
 
 
 function RecipeList({ recipes, onRecipeRequestById, onToggleSidebar }) {
-
   return (
     <ul className="recipe-list">
-      {recipes.map(item => (<Recipe key={item.idMeal}
-        onRecipeRequestById={onRecipeRequestById}
-        onToggleSidebar={onToggleSidebar}
-        recipeObj={item}></Recipe>))}
-
+      {recipes.map(item => (
+        <Recipe
+          key={item.idMeal}
+          onRecipeRequestById={onRecipeRequestById}
+          onToggleSidebar={onToggleSidebar}
+          recipeObj={item} />))}
     </ul>
   );
 }
@@ -289,14 +289,5 @@ function Footer({ children }) {
 }
 
 
-
-function SidebarDesktopOld({ onSetSelectedRecipe }) {
-  return (
-    <nav className="col-md-2 col-lg-2 sidebar-desktop px-4">
-      <SearchBar></SearchBar>
-      <RecipeList onSetSelectedRecipe={onSetSelectedRecipe}></RecipeList>
-    </nav>
-  );
-}
 
 export default App;
