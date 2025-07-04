@@ -224,6 +224,20 @@ function Recipe({ recipeObj, onSelectRecipeById, onToggleSidebar }) {
 function getIngredients(recipe) {
   return Object.entries(recipe).filter(([k, v]) => k.startsWith("strIngredient") && v?.trim());
 }
+function getIngredientAndAmounts(recipe) {
+  const ingredients = Object.entries(recipe)
+    .filter(([k, v]) => k.startsWith("strIngredient") && v?.trim());
+
+  const measures = Object.entries(recipe)
+    .filter(([k, v]) => k.startsWith("strMeasure") && v?.trim());
+
+  // Return as array of [ingredient, measure] pairs for easier mapping in Ingredients component
+  return ingredients.map(([_, ingredient], i) => [
+    ingredient.trim(),
+    measures[i]?.[1]?.trim() ?? ""
+  ]);
+}
+
 function getInstructions(recipe) {
   return recipe.strInstructions.split('.').map(i => i.trim()).filter(i => i.length > 0);
 }
@@ -242,7 +256,7 @@ function MainContent({ selectedRecipe }) {
   const area = selectedRecipe.strArea;
   const video = selectedRecipe.strYoutube;
   const image = selectedRecipe.strMealThumb;
-  const ingredients = getIngredients(selectedRecipe);
+  const ingredients = getIngredientAndAmounts(selectedRecipe);
   const instructions = getInstructions(selectedRecipe);
 
   // TODO aprire video in un altra scheda
@@ -259,19 +273,24 @@ function MainContent({ selectedRecipe }) {
         </p>
 
         <img src={image} alt={name} className="recipe-img" />
-        <Ingredients ingredients={ingredients}></Ingredients>
+        <IngredientList ingredients={ingredients}></IngredientList>
         <Procedure instructions={instructions}></Procedure>
       </div>
     </main>
   );
 }
 
-function Ingredients({ ingredients }) {
+function IngredientList({ ingredients }) {
   return (
     <>
       <h4>🥕 Ingredienti</h4>
-      <ul>
-        {ingredients.map(([key, value]) => <li key={key}>{value}</li>)}
+      <ul className="ingredient-list">
+        {ingredients.map(([name, amount]) => (
+          <li key={name}>
+            <span className="ingredient-name">{name}</span>
+            <span className="ingredient-amount">{amount}</span>
+          </li>
+        ))}
       </ul>
     </>
   );
