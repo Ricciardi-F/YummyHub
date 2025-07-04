@@ -1,7 +1,7 @@
 export function IngredientList({ ingredients }) {
     return (
         <>
-            <h4>🥕 Ingredienti</h4>
+            <h4>🥕 Ingredients</h4>
             <ul className="ingredient-list">
                 {ingredients.map(([name, amount]) => (
                     <li key={name}>

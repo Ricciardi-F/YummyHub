@@ -1,4 +1,4 @@
-import { Procedure } from "./Procedure";
+import { Instructions } from "./Instructions";
 import { IngredientList } from "./IngredientList";
 import { getIngredientAndAmounts, getInstructions } from "../utils/format";
 
@@ -6,7 +6,7 @@ export function MainContent({ selectedRecipe }) {
     if (!selectedRecipe) return (
         <main className="col-md-9 col-lg-10 content">
             <div className="recipe-card placeholder">
-                <p>Seleziona una ricetta dal menu per iniziare!</p>
+                <p>Select a recipe from the menu to begin!</p>
             </div>
         </main>
     );
@@ -24,8 +24,8 @@ export function MainContent({ selectedRecipe }) {
             <div className="recipe-card">
                 <h2>🍽️ {name}</h2>
                 <p className="category-area">
-                    <strong>Categoria:</strong> {category} &nbsp;&nbsp;|&nbsp;&nbsp;
-                    <strong>Area:</strong> {area}
+                    <strong>Category:</strong> {category} &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <strong>Region:</strong> {area}
                 </p>
                 <p>
                     {video && <a
@@ -33,12 +33,12 @@ export function MainContent({ selectedRecipe }) {
                         className="video-link"
                         target="_blank"
                         rel="noopener noreferrer">
-                        🎥 Guarda il video
+                        🎥 Watch video
                     </a>}
                 </p>
                 <img src={image} alt={name} className="recipe-img" />
                 <IngredientList ingredients={ingredients}></IngredientList>
-                <Procedure instructions={instructions}></Procedure>
+                <Instructions instructions={instructions}></Instructions>
             </div>
         </main>
     );

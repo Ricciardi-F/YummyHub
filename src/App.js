@@ -38,7 +38,7 @@ function App() {
 
   return (
     <>
-      <Header isDesktop={isDesktop} onToggleSidebar={setIsMobileSidebarOpen} >🍳 Ricette Facili</Header>
+      <Header isDesktop={isDesktop} onToggleSidebar={setIsMobileSidebarOpen} >🍳 Quick Meals</Header>
       <div className="container-fluid">
         <div className="row">
           <Sidebar isDesktop={isDesktop}
@@ -50,7 +50,7 @@ function App() {
           />
           <MainContent selectedRecipe={selectedRecipe}></MainContent>
         </div>
-        <Footer>© 2025 App di Ricette - Realizzato con React</Footer>
+        <Footer>© 2025 Recipe App – Built with React</Footer>
       </div>
     </>
   );

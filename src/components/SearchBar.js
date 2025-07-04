@@ -12,18 +12,18 @@ export function SearchBar({ onGetRequest }) {
     }
 
     return (
-        <form className="py-2 search-bar" role="search" onSubmit={e => handleSubmit(e)} aria-label="Cerca ricette">
+        <form className="py-2 search-bar" role="search" onSubmit={e => handleSubmit(e)} aria-label="search recipes">
             <div className="input-group">
                 <input
                     type="search"
                     className="form-control"
-                    placeholder="Cerca ricetta..."
-                    aria-label="Cerca ricetta"
+                    placeholder="search recipes..."
+                    aria-label="search recipes"
                     name="search"
                     value={searchValue}
                     onChange={e => setSearchValue(e.target.value)}
                     autoComplete="off" />
-                <button type="submit" className="btn btn-custom-search" aria-label="Avvia ricerca">
+                <button type="submit" className="btn btn-custom-search" aria-label="start research">
                     ►
                 </button>
             </div>
