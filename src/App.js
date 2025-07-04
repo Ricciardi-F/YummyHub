@@ -1,100 +1,60 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import defaultRecipe from './defaultRecipe.json';
 
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { MainContent } from "./components/MainContent";
 import { Sidebar } from "./components/Sidebar";
+import { fetchRecipeById, fetchRecipesFromAllSources } from "./utils/apis";
+import { useIsDesktop } from "./utils/useIsDesktop";
 
 
 
-function useIsDesktop() {
-  const MIN_WIDTH = 768;
-  const [isDesktop, setIsDesktop] = useState(() => window.innerWidth > MIN_WIDTH);
-
-  useEffect(() => {
-    const handleResize = () => setIsDesktop(window.innerWidth > MIN_WIDTH);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return isDesktop;
-}
 
 function App() {
+  const isDesktop = useIsDesktop();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(defaultRecipe);
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState([defaultRecipe]);
 
 
-  const isDesktop = useIsDesktop();
 
-  async function fetchRecipeById(id) {
-    const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
-
+  async function handleSelectRecipe(id) {
     try {
-      const response = await fetch(URL);
-      if (!response.ok) throw new Error(response.status);
-
-      const data = await response.json();
-
-      setSelectedRecipe(data.meals[0]);
-    } catch (error) {
-      console.error("Errore nella fetch:", error);
+      const recipe = await fetchRecipeById(id);
+      setSelectedRecipe(recipe);
+    } catch (err) {
+      console.error("Errore nel caricamento ricetta:", err);
     }
   }
 
-  async function fetchRecipesFromAllSources(searchValue) {
-    const MAX_ITEMS = 20;
-    const baseUrl = "https://www.themealdb.com/api/json/v1/1";
-
-    const urls = [
-      `${baseUrl}/filter.php?i=${searchValue}`,
-      `${baseUrl}/search.php?s=${searchValue}`,
-      `${baseUrl}/filter.php?c=${searchValue}`,
-    ];
-
+  async function handleSearch(searchValue) {
     try {
-      const responses = await Promise.all(
-        urls.map((url) => fetch(url).then((res) => res.json()))
-      );
-
-      // Unisci tutti i risultati filtrando quelli null
-      const allMeals = responses.flatMap((res) => res.meals || []);
-
-      // Elimina duplicati usando una Map (alternativa a Set per oggetti)
-      const dedupedMeals = Array.from(
-        new Map(allMeals.map((m) => [m.idMeal, m])).values()
-      );
-
-      // Limita e aggiorna
-      setRecipes(dedupedMeals.slice(0, MAX_ITEMS));
+      const results = await fetchRecipesFromAllSources(searchValue);
+      setRecipes(results);
     } catch (err) {
-      console.error("Errore nella fetch multipla:", err);
+      console.error("Errore nella ricerca:", err);
       setRecipes([]);
     }
   }
+
 
   return (
     <>
       <Header isDesktop={isDesktop} onToggleSidebar={setIsMobileSidebarOpen} >🍳 Ricette Facili</Header>
       <div className="container-fluid">
         <div className="row">
-
           <Sidebar isDesktop={isDesktop}
             isMobileSidebarOpen={isMobileSidebarOpen}
             onToggleSidebar={setIsMobileSidebarOpen}
-            onGetRecipesRequest={fetchRecipesFromAllSources}
+            onGetRecipesRequest={handleSearch}
             recipes={recipes}
-            onSelectRecipeById={fetchRecipeById}
+            onSelectRecipeById={handleSelectRecipe}
           />
-
           <MainContent selectedRecipe={selectedRecipe}></MainContent>
         </div>
         <Footer>© 2025 App di Ricette - Realizzato con React</Footer>
-
       </div>
-
     </>
   );
 }
