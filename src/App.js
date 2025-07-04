@@ -38,13 +38,13 @@ function App() {
 
   return (
     <>
-      <Header isDesktop={isDesktop} onToggleSidebar={setIsMobileSidebarOpen} >🍳 Quick Meals</Header>
+      <Header isDesktop={isDesktop} onToggleSidebar={setIsMobileSidebarOpen} >🍳 YummyHub</Header>
       <div className="container-fluid">
         <div className="row">
           <Sidebar isDesktop={isDesktop}
             isMobileSidebarOpen={isMobileSidebarOpen}
             onToggleSidebar={setIsMobileSidebarOpen}
-            onGetRecipesRequest={handleSearch}
+            handleSearchRecipes={handleSearch}
             recipes={recipes}
             onSelectRecipeById={handleSelectRecipe}
           />

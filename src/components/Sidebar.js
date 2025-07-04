@@ -1,7 +1,7 @@
 import { SidebarDesktop } from "./SidebarDesktop";
 import { SidebarMobile } from "./SidebarMobile";
 
-export function Sidebar({ onGetRecipesRequest, recipes, onSelectRecipeById, isDesktop, isMobileSidebarOpen, onToggleSidebar }) {
+export function Sidebar({ handleSearchRecipes, recipes, onSelectRecipeById, isDesktop, isMobileSidebarOpen, onToggleSidebar }) {
 
     return (
         <>
@@ -9,12 +9,12 @@ export function Sidebar({ onGetRecipesRequest, recipes, onSelectRecipeById, isDe
                 <SidebarDesktop
                     recipes={recipes}
                     onSelectRecipeById={onSelectRecipeById}
-                    onGetRecipesRequest={onGetRecipesRequest} />}
+                    handleSearchRecipes={handleSearchRecipes} />}
             {!isDesktop && isMobileSidebarOpen &&
                 <SidebarMobile
                     recipes={recipes}
                     onSelectRecipeById={onSelectRecipeById}
-                    onGetRecipesRequest={onGetRecipesRequest}
+                    handleSearchRecipes={handleSearchRecipes}
                     onToggleSidebar={onToggleSidebar} />}
         </>
     );
