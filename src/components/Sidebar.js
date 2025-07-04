@@ -3,7 +3,6 @@ import { SidebarMobile } from "./SidebarMobile";
 
 export function Sidebar({ onGetRecipesRequest, recipes, onSelectRecipeById, isDesktop, isMobileSidebarOpen, onToggleSidebar }) {
 
-
     return (
         <>
             {isDesktop &&

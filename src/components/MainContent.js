@@ -19,7 +19,6 @@ export function MainContent({ selectedRecipe }) {
     const ingredients = getIngredientAndAmounts(selectedRecipe);
     const instructions = getInstructions(selectedRecipe);
 
-    // TODO aprire video in un altra scheda
     return (
         <main className="col-md-9 col-lg-10 content">
             <div className="recipe-card">
@@ -29,9 +28,14 @@ export function MainContent({ selectedRecipe }) {
                     <strong>Area:</strong> {area}
                 </p>
                 <p>
-                    {video && <a href={video} className="video-link"> 🎥 Guarda il video</a>}
+                    {video && <a
+                        href={video}
+                        className="video-link"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        🎥 Guarda il video
+                    </a>}
                 </p>
-
                 <img src={image} alt={name} className="recipe-img" />
                 <IngredientList ingredients={ingredients}></IngredientList>
                 <Procedure instructions={instructions}></Procedure>

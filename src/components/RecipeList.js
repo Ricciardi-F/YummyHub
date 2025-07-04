@@ -1,6 +1,5 @@
 import { Recipe } from "./Recipe";
 
-
 export function RecipeList({ recipes, onSelectRecipeById, onToggleSidebar }) {
     if (recipes.length === 0) return (
         <p className="no-result-text">Nessun risultato trovato.</p>
@@ -8,7 +7,6 @@ export function RecipeList({ recipes, onSelectRecipeById, onToggleSidebar }) {
 
     return (
         <ul className="recipe-list">
-
             {recipes.map(item => (
                 <Recipe
                     key={item.idMeal}

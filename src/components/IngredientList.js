@@ -1,6 +1,3 @@
-
-
-
 export function IngredientList({ ingredients }) {
     return (
         <>

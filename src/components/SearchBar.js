@@ -1,15 +1,12 @@
 import { useState } from "react";
 
-
-
-
 export function SearchBar({ onGetRequest }) {
     const [searchValue, setSearchValue] = useState("");
 
     function handleSubmit(e) {
-        e.preventDefault(); //evita il reload della pagina al submit
+        e.preventDefault();
         if (!searchValue.trim()) return;
-        //chiamata fetch
+
         onGetRequest(searchValue.trim());
         setSearchValue(""); //reset searchBar
     }

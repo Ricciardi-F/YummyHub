@@ -121,7 +121,6 @@ main.content {
     flex-grow: 1;
     max-width: 100%;
     min-height: 0;
-    /* evita overflow */
 }
 
 h5 {
@@ -237,7 +236,6 @@ footer {
     width: 95%;
     margin-left: auto;
     margin-right: auto;
-    /* rimosso justify-content perché serve display:flex per funzionare */
 }
 
 .mobile-sidebar-close {
@@ -278,7 +276,6 @@ footer {
     padding: 0;
     margin-left: 0.75rem;
     max-width: 40%;
-    /* imposta un limite */
 }
 
 

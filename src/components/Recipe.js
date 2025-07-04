@@ -1,6 +1,3 @@
-
-
-
 export function Recipe({ recipeObj, onSelectRecipeById, onToggleSidebar }) {
 
     function handleRecipeClick() {

@@ -2,8 +2,6 @@ import { SearchBar } from "./SearchBar";
 import { RecipeList } from "./RecipeList";
 
 
-
-
 export function SidebarMobile({ recipes, onSelectRecipeById, onToggleSidebar, onGetRecipesRequest }) {
     return (
         <div className="mobile-sidebar">

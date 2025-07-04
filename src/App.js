@@ -9,14 +9,11 @@ import { fetchRecipeById, fetchRecipesFromAllSources } from "./utils/apis";
 import { useIsDesktop } from "./utils/useIsDesktop";
 
 
-
-
 function App() {
   const isDesktop = useIsDesktop();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(defaultRecipe);
   const [recipes, setRecipes] = useState([defaultRecipe]);
-
 
 
   async function handleSelectRecipe(id) {
@@ -58,8 +55,6 @@ function App() {
     </>
   );
 }
-
-
 
 
 export default App;
