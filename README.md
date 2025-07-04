@@ -1,86 +1,120 @@
-# Ricettario React
+> 🇮🇹 Leggi questo file in italiano: [Italian](./LEGGIMI.md)
 
-Un'applicazione frontend creata con **React** e **Bootstrap** per esplorare ricette culinarie.  
-L'interfaccia è basata su un layout a **sidebar** più un'area dettagli, ispirata al design one-page.  
-Il progetto è pensato come esercizio educativo, creato parallelamente alla fruizione di un corso su **React**, utilizzando un flusso di sviluppo ispirato alla metodologia **Agile**.
+# Yummy-Hub App
 
----
+[![Vercel Deploy](https://vercel.badge.ryanford.dev/api/pin?url=https://recipes-f.vercel.app)](https://recipes-f.vercel.app)
+[![Made with React](https://img.shields.io/badge/Made%20with-React-61DAFB?logo=react)](https://reactjs.org/)
+[![Bootstrap 5](https://img.shields.io/badge/Styled%20with-Bootstrap%205-7952B3?logo=bootstrap)](https://getbootstrap.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](#license)
 
-## Obiettivi del progetto
-
-- Creare una UI moderna per la consultazione di ricette
-- Utilizzare dati statici (mock JSON) e successivamente integrarli con [TheMealDB API](https://www.themealdb.com/api.php)
-- Gestire il layout con Bootstrap (desktop + mobile responsive)
-- Organizzare il lavoro in Sprint usando un approccio Agile basato su Kanban
-- Documentare ogni fase del progetto in modo chiaro e riutilizzabile
+A frontend application built with **React** and **Bootstrap** to explore culinary recipes.  
+The interface is based on a **sidebar + details area** layout, inspired by a one-page design.  
+This project was created as an educational exercise, developed alongside a **React course**, using a workflow inspired by **Agile methodology**.
 
 ---
 
-## 🛠️ Stack Tecnologico
+## Project Goals
 
-- **Frontend:** React (Vite o Create React App)
-- **UI/Styling:** Bootstrap 5
-- **Mock API/Data:** JSON locale e successiva integrazione con TheMealDB
-- **Gestione progetto:** Focalboard, metodologia Agile kanban
+- Create a modern UI for browsing recipes  
+- Start with static mock data (JSON), then integrate with [TheMealDB API](https://www.themealdb.com/api.php)  
+- Use Bootstrap for layout and responsive design (desktop + mobile)  
+- Organize the work in Sprints using an Agile Kanban approach  
+- Document each project phase clearly and in a reusable way  
 
 ---
 
-## 📁 Struttura del progetto (parziale)
+## 🛠️ Tech Stack
 
-(In corso)
+- **Frontend:** React (Vite or Create React App)  
+- **UI/Styling:** Bootstrap 5  
+- **Mock API/Data:** Local JSON files, then TheMealDB integration  
+- **Project Management:** Focalboard with Agile/Kanban methodology  
+
 ---
+
 
 ## 🚀 Roadmap (Sprint Planning)
 
-### ✅ Sprint 1 – Setup e Layout Base
-- [x] Mockup UI disegnato (Excalidraw)
-- [x] Creazione layout statico HTML con Bootstrap
-- [x] Creazione componenti React (`Header`, `Sidebar`, `RecipeDetails`)
-- [ ] Visualizzazione dati hardcoded
-- [x] Comportamento responsive di base su mobile
 
-### ⏳ Sprint 2 – Integrazione API e miglioramenti UX
-- [ ] Connessione a TheMealDB API
-- [ ] Componente di caricamento (Loader)
-- [ ] Gestione errore rete
-- [ ] Ricerca ricette
-- [ ] Refactor componenti in struttura modulare
+### ✅ Sprint 1 – Setup & Base Layout
+- [x] UI Mockup created (Excalidraw)  
+- [x] React project setup with Bootstrap  
+- [x] Base layout: Header, Sidebar, MainContent  
+- [x] Recipe data from mock JSON file  
+- [x] Basic mobile responsiveness (burger menu)  
+- [x] Show recipe details on selection  
+- [x] Reactive component structure  
+
+### ✅ Sprint 2 – API Integration & UX Improvements
+- [x] Implement search bar (UI + logic)  
+- [x] Multiple API calls (by name, ingredient, category)  
+- [x] Remove duplicates and limit results (max 10)  
+- [x] Secondary call for recipe details by ID  
+- [x] Dynamic rendering of selected recipe details  
+- [x] Guide messages and fallback if no recipe is selected  
+- [x] Fallback for optional ingredients  
+
+### ✅ Sprint 3 – Refactoring & UI Optimization
+- [x] Display ingredients with quantities (as per mock)  
+- [x] Extract `IngredientList` component from `MainContent`  
+- [x] Create `components/` directory and refactor files  
+- [x] Clean up `App.jsx` and reorganize logic  
+- [x] Desktop and mobile UI improvements  
+- [x] Message for no search results  
+- [x] Loading state and empty recipe state (backlog)  
+
+### ⏳ Sprint 4 – Deployment & Publishing
+- [x] Final code cleanup (console.log, unused comments)  
+- [x] `.env` file for API URLs  
+- [x] English translation of the interface  
+- [x] Production build verification (`npm run build`)  
+- [x] GitHub repo creation and project push  
+- [x] Deploy to Vercel  
+- [x] Final README.md written in English (with links)  
 
 ---
 
-## 📷 Mockup
+## 📷 Mockups
 
-Mockup creato con [Excalidraw](https://excalidraw.com) e versione statica in HTML.  
-Sono disponibili nella cartella [`/mockups`](./mockups).
+Mockups created with [Excalidraw](https://excalidraw.com) and static HTML version.  
+They can be found in the [`/mockups`](./mockups) folder.
 
 ---
 
-## 📦 Installazione e Avvio
+## 📦 Installation & Run
 
 ```bash
-# Clona il progetto
+# Clone the project
 git clone https://github.com/Ricciardi-F/recipes.git
 cd recipes
 
-# Installa le dipendenze
+# Install dependencies
 npm install
 
-# Avvia il progetto in locale
-npm run dev
-```
+# Run the project locally
+npm start
+
 
 ---
 
-## 👨‍🍳 Autore
 
-- **Federico** – sviluppatore curioso e appassionato, con focus su progetti educativi e solidi flussi di lavoro.  
+## 🌐 Live Demo
+
+Check out the live demo here:  
+👉 [recipes-f.vercel.app](https://recipes-f.vercel.app)
+
+---
+
+## 👨‍🍳 Author
+
+- **Federico** – curious and passionate developer, focused on educational projects and solid workflows.
 - 🧑‍💻 GitHub: [github.com/Ricciardi-F](https://github.com/Ricciardi-F)
 
 ---
 
-## 📄 Licenza
+## 📄 License
 
-Progetto personale senza scopo di lucro, pubblicato a fini educativi.  
-Basato su dati pubblici disponibili da TheMealDB.
+Personal project with no commercial purpose, published for educational use.
+Based on public data provided by TheMealDB.
 
 ---
