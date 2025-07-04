@@ -1,5 +1,4 @@
-
-const BASE_URL = "https://www.themealdb.com/api/json/v1/1";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 export async function fetchRecipeById(id) {
     const url = `${BASE_URL}/lookup.php?i=${id}`;

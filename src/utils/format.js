@@ -1,4 +1,3 @@
-
 export function getIngredientAndAmounts(recipe) {
     const ingredients = Object.entries(recipe)
         .filter(([k, v]) => k.startsWith("strIngredient") && v?.trim());
