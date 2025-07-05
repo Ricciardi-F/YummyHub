@@ -21,7 +21,7 @@ function App() {
       const recipe = await fetchRecipeById(id);
       setSelectedRecipe(recipe);
     } catch (err) {
-      console.error("Errore nel caricamento ricetta:", err);
+      console.error("Error loading recipe:", err);
     }
   }
 
@@ -30,7 +30,7 @@ function App() {
       const results = await fetchRecipesFromAllSources(searchValue);
       setRecipes(results);
     } catch (err) {
-      console.error("Errore nella ricerca:", err);
+      console.error("Search error:", err);
       setRecipes([]);
     }
   }
