@@ -2,7 +2,7 @@
 
 # Yummi-Hub App
 
-[![Vercel Deploy](https://vercel.badge.ryanford.dev/api/pin?url=https://recipes-f.vercel.app)](https://recipes-f.vercel.app)
+[![Vercel Deploy](https://vercel.badge.ryanford.dev/api/pin?url=https://yummy-97jg1ks7l-ricciardi-fs-projects.vercel.app)](https://yummy-97jg1ks7l-ricciardi-fs-projects.vercel.app)
 [![Made with React](https://img.shields.io/badge/Made%20with-React-61DAFB?logo=react)](https://reactjs.org/)
 [![Bootstrap 5](https://img.shields.io/badge/Styled%20with-Bootstrap%205-7952B3?logo=bootstrap)](https://getbootstrap.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](#license)
@@ -101,8 +101,7 @@ npm start
 ## 🌐 Live Demo
 
 Guarda la demo live qui:
-👉 [recipes-f.vercel.app](https://recipes-f.vercel.app)
-
+👉 [yummy-97jg1ks7l-ricciardi-fs-projects.vercel.app](https://yummy-97jg1ks7l-ricciardi-fs-projects.vercel.app)
 ---
 
 ## 👨‍🍳 Autore
