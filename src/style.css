@@ -274,8 +274,8 @@ footer {
 .ingredient-list {
     list-style: circle;
     padding: 0;
-    margin-left: 0.75rem;
-    max-width: 40%;
+    margin: 0 0.75rem;
+    max-width: 100%;
 }
 
 
