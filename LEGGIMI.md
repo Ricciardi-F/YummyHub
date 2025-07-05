@@ -2,7 +2,9 @@
 
 # Yummi-Hub App
 
-[![Vercel Deploy](https://vercel.badge.ryanford.dev/api/pin?url=https://yummy-97jg1ks7l-ricciardi-fs-projects.vercel.app)](https://yummy-97jg1ks7l-ricciardi-fs-projects.vercel.app)
+## 🌐 Live Demo
+
+[![Visit Live Demo](https://img.shields.io/badge/Live%20Demo-Visit-blue?style=flat&logo=vercel)](https://yummy-97jg1ks7l-ricciardi-fs-projects.vercel.app)
 [![Made with React](https://img.shields.io/badge/Made%20with-React-61DAFB?logo=react)](https://reactjs.org/)
 [![Bootstrap 5](https://img.shields.io/badge/Styled%20with-Bootstrap%205-7952B3?logo=bootstrap)](https://getbootstrap.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](#license)
@@ -63,7 +65,7 @@ Il progetto è pensato come esercizio educativo, creato parallelamente alla frui
 - [x] Messaggio per ricerche senza risultati
 - [x] Gestione stato loading e ricetta vuota (backlog)
 
-### ⏳ Sprint 4 – Deploy e distribuzione
+### ✅ Sprint 4 – Deploy e distribuzione
 - [x] Pulizia finale del codice (console.log, commenti inutili)
 - [x] Creazione file .env per URL API
 - [x] Traduzione interfaccia in inglese
@@ -94,14 +96,14 @@ npm install
 # Avvia il progetto in locale
 npm start
 
-
+```
 ---
 
 
 ## 🌐 Live Demo
 
 Guarda la demo live qui:
-👉 [yummy-97jg1ks7l-ricciardi-fs-projects.vercel.app](https://yummy-97jg1ks7l-ricciardi-fs-projects.vercel.app)
+👉 [Visita la demo online](https://yummy-97jg1ks7l-ricciardi-fs-projects.vercel.app)
 ---
 
 ## 👨‍🍳 Autore
