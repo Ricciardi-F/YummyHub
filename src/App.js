@@ -36,6 +36,15 @@ function App() {
     }
   }
 
+  function renderSidebarDesktop() {
+    return (
+      <SidebarDesktop>
+        <SearchBar onGetRequest={handleSearch} />
+        <RecipeList recipes={recipes} onSelectRecipeById={handleSelectRecipe} />
+      </SidebarDesktop>
+    );
+  }
+
   return (
     <>
       <Header isDesktop={isDesktop} onToggleSidebar={setIsMobileSidebarOpen}>
@@ -43,15 +52,7 @@ function App() {
       </Header>
       <div className="container-fluid">
         <div className="row">
-          {isDesktop && (
-            <SidebarDesktop>
-              <SearchBar onGetRequest={handleSearch}></SearchBar>
-              <RecipeList
-                recipes={recipes}
-                onSelectRecipeById={handleSelectRecipe}
-              ></RecipeList>
-            </SidebarDesktop>
-          )}
+          {isDesktop && renderSidebarDesktop()}
           {!isDesktop && isMobileSidebarOpen && (
             <SidebarMobile onToggleSidebar={setIsMobileSidebarOpen}>
               <SearchBar onGetRequest={handleSearch}></SearchBar>
