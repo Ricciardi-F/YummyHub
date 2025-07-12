@@ -4,7 +4,7 @@
 
 ## 🌐 Live Demo
 
-[![Visit Live Demo](https://img.shields.io/badge/Live%20Demo-Visit-blue?style=flat&logo=vercel)](https://yummy-97jg1ks7l-ricciardi-fs-projects.vercel.app)
+[![Visit Live Demo](https://img.shields.io/badge/Live%20Demo-Visit-blue?style=flat&logo=vercel)](https://yummyhub-ricciardi-fs-projects.vercel.app)
 [![Made with React](https://img.shields.io/badge/Made%20with-React-61DAFB?logo=react)](https://reactjs.org/)
 [![Bootstrap 5](https://img.shields.io/badge/Styled%20with-Bootstrap%205-7952B3?logo=bootstrap)](https://getbootstrap.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](#license)
@@ -103,7 +103,7 @@ npm start
 ## 🌐 Live Demo
 
 Check out the live demo here:  
-👉 [Visit the live demo](https://yummy-97jg1ks7l-ricciardi-fs-projects.vercel.app)
+👉 [Visit the live demo](https://yummyhub-ricciardi-fs-projects.vercel.app)
 ---
 
 ## 👨‍🍳 Author
